@@ -1,4 +1,4 @@
-# plantpy: Plant Village Survey Export Simple CLI
+# plantpy: Plant Village Survey Simple Export CLI
 
 This is an application to programmatically export Survey results from [Plant Village surveys](https://plantvillage.psu.edu/). The tool will be extended to include multiple surveys and data sources but for now it exports only the Locust survey datasets. This tools access will depend on your access with plantvillage.
 
