@@ -63,7 +63,7 @@ optional arguments:
 To obtain help for specific functionality, simply call it with _help_ switch, e.g.: `plantpy auth -h`.
 
 ### plantpy auth
-For now this stores the username and password as a JSON file which eliminates the need for users to input authentication details again and again. It has some inherent features, it looks for your country in existing country list and will let you know if returned CSV is empty.
+For now this stores the username and password as a JSON file which eliminates the need for users to input authentication details again and again. 
 
 ```
 plantpy auth -h
@@ -77,7 +77,7 @@ optional arguments:
 ****
 
 ### plantpy locust
-This allows you to export the locust reports based on country, start and end date into a CSV file. Usage is simply
+This allows you to export the locust reports based on country, start and end date into a CSV file. It has some inherent features, it looks for your country in existing country list and will let you know if returned CSV is empty. Usage is simply
 
 ```
 plantpy locust -h
