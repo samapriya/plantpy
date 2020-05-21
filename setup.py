@@ -19,10 +19,10 @@ def readme():
     with open('README.md') as f:
         return f.read()
 setuptools.setup(
-    name='pyplant',
+    name='plantpy',
     version='0.0.1',
-    packages=['pyplant'],
-    url='https://github.com/samapriya/pyplant',
+    packages=['plantpy'],
+    url='https://github.com/samapriya/plantpy',
     install_requires=['rapidfuzz>=0.2.2',
     'requests>=2.23.0',
     'beautifulsoup4>=4.9.1',],
@@ -47,6 +47,6 @@ setuptools.setup(
     author_email='samapriya.roy@gmail.com',
     description='Plant Village Survey Export: Simple CLI',
     entry_points={
-        "console_scripts": ["pyplant=pyplant.pyplant:main"]
+        "console_scripts": ["plantpy=plantpy.plantpy:main"]
     },
 )
