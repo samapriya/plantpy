@@ -24,7 +24,10 @@ from datetime import datetime
 from os.path import expanduser
 import argparse
 import csv
+import pkg_resources
+import sys
 import json
+import requests
 
 
 # Setup an agent for login
@@ -69,6 +72,37 @@ country_list = [
     "Uganda",
     "Yemen",
 ]
+
+all_locations = 'Algeria&search[locations][]=Bahrain&search[locations][]=Burkina Faso&search[locations][]=Cameroon&search[locations][]=Chad&search[locations][]=Djibouti&search[locations][]=Egypt&search[locations][]=Eritrea&search[locations][]=Ethiopia&search[locations][]=India&search[locations][]=Iraq&search[locations][]=Iran&search[locations][]=Jordan&search[locations][]=Kenya&search[locations][]=Kuwait&search[locations][]=Libya&search[locations][]=Mali&search[locations][]=Mauritania&search[locations][]=Morocoo&search[locations][]=Niger&search[locations][]=Nigeria&search[locations][]=Oman&search[locations][]=Pakistan&search[locations][]=Qatar&search[locations][]=Saudi&search[locations][]=Senegal&search[locations][]=Somalia&search[locations][]=South Sudan&search[locations][]=Sudan&search[locations][]=Tanzania&search[locations][]=UAE&search[locations][]=Uganda&search[locations][]=Yemen'
+
+
+# Get package version
+def plantpy_version():
+    url = "https://pypi.org/project/plantpy/"
+    source = requests.get(url)
+    html_content = source.text
+    soup = bs(html_content, "html.parser")
+    company = soup.find("h1")
+    if (
+        not pkg_resources.get_distribution("plantpy").version
+        == company.string.strip().split(" ")[-1]
+    ):
+        print(
+            "\n"
+            + "========================================================================="
+        )
+        print(
+            "Current version of plantpy is {} upgrade to lastest version: {}".format(
+                pkg_resources.get_distribution("plantpy").version,
+                company.string.strip().split(" ")[-1],
+            )
+        )
+        print(
+            "========================================================================="
+        )
+
+
+plantpy_version()
 
 # set credentials
 def auth():
@@ -124,35 +158,42 @@ def locust(report, start, end, country):
             country_matches.append(countries)
     if not len(country_matches) == 0:
         country = country_matches[0]
-        with Session() as s:
-            site = s.get("https://plantvillage.psu.edu/users/sign_in")
-            soup = bs(site.content, "html.parser")
-            data = {
-                "authenticity_token": soup.find(
-                    "input", attrs={"name": "authenticity_token"}
-                )["value"],
-                "user[email]": username,
-                "user[password]": password,
-            }
-            r = s.post("https://plantvillage.psu.edu/users/sign_in", data=data)
-            b = s.get(
-                "https://plantvillage.psu.edu/admin/locust_surveys/export_csv.csv?utf8=%E2%9C%93&start_date={}&end_date={}&search[locations][]={}&commit=Export".format(
-                    start_format, end_format, country
-                )
-            )
-            url_content = b.content
-            print("\n" + "Writing report to : {}".format(report))
-            csv_file = open(report, "wb")
-            csv_file.write(url_content)
-            csv_file.close()
+    elif len(country_matches) == 0 and country == "all":
+        country=all_locations
     else:
-        print("Country not found in list: Choose from ")
+        print("Country not found in list: Choose from or choose 'all'")
         print(country_list)
+        sys.exit()
+    with Session() as s:
+        site = s.get("https://plantvillage.psu.edu/users/sign_in")
+        soup = bs(site.content, "html.parser")
+        data = {
+            "authenticity_token": soup.find(
+                "input", attrs={"name": "authenticity_token"}
+            )["value"],
+            "user[email]": username,
+            "user[password]": password,
+        }
+        r = s.post("https://plantvillage.psu.edu/users/sign_in", data=data)
+        b = s.get(
+            "https://plantvillage.psu.edu/admin/locust_surveys/export_csv.csv?utf8=%E2%9C%93&start_date={}&end_date={}&search[locations][]={}&commit=Export".format(
+                start_format, end_format, country
+            )
+        )
+        url_content = b.content
+        print("\n" + "Writing report to : {}".format(report))
+        csv_file = open(report, "wb")
+        csv_file.write(url_content)
+        csv_file.close()
+
     with open(report, errors="ignore") as input_file:
         reader_file = csv.reader(input_file)
         value = len(list(reader_file))
     if value > 1:
-        print("Total rows in dataset {} for {}".format(value - 1, country))
+        if len(country.split('=')) ==1:
+            print("Total rows in dataset {} for {}".format(value - 1, country))
+        elif len(country.split('='))>1:
+            print("Total rows in dataset {} for {} countries".format(value - 1, len(country.split('='))))
     elif value == 1:
         print("No data found for {}".format(country))
 
@@ -176,7 +217,7 @@ def main(args=None):
     required_named.add_argument("--start", help="Start Date YYYY-MM-DD", required=True)
     required_named.add_argument("--end", help="End date YYYY-MM-DD", required=True)
     required_named.add_argument(
-        "--country", help="Select country to get data", required=True
+        "--country", help="Select country to get data or use 'all'", required=True
     )
     required_named.add_argument(
         "--report", help="full path to CSV report file", required=True

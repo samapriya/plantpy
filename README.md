@@ -66,7 +66,7 @@ optional arguments:
 ****
 
 ### plantpy locust
-This allows you to export the locust reports based on country, start and end date into a CSV file. Usage is simply
+This allows you to export the locust reports based on country, start and end date into a CSV file. Use country as "all" to get report on all countries in current survey list. Usage is simply
 
 ```
 plantpy locust -h
@@ -79,8 +79,16 @@ optional arguments:
 Required named arguments.:
   --start START      Start Date YYYY-MM-DD
   --end END          End date YYYY-MM-DD
-  --country COUNTRY  Select country to get data
+  --country COUNTRY  Select country to get data or use 'all'
   --report REPORT    full path to CSV report file
 ```
 
 ![plantpy_locust](https://user-images.githubusercontent.com/6677629/82530828-29b71a80-9b0c-11ea-914c-7dca93f127c1.gif)
+
+
+### Changelog
+
+**v0.0.2**
+* Added version check for automatic release notification.
+* Now export locust report for all countries.
+* General improvements to handle country lists and exports.

@@ -20,7 +20,7 @@ def readme():
         return f.read()
 setuptools.setup(
     name='plantpy',
-    version='0.0.1',
+    version='0.0.2',
     packages=['plantpy'],
     url='https://github.com/samapriya/plantpy',
     install_requires=['rapidfuzz>=0.2.2',
