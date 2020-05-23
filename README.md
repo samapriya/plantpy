@@ -1,6 +1,16 @@
 # plantpy: Plant Village Survey Export Simple CLI
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3837103.svg)](https://doi.org/10.5281/zenodo.3837103)
+[![PyPI version](https://badge.fury.io/py/plantpy.svg)](https://badge.fury.io/py/plantpy)
+
 This is an application to programmatically export Survey results from [Plant Village surveys](https://plantvillage.psu.edu/). The tool will be extended to include multiple surveys and data sources but for now it exports only the Locust survey datasets. This tools access will depend on your access with plantvillage.
+
+Simple citation:
+
+```
+Samapriya Roy. (2020, May 21). samapriya/plantpy: plantpy: Plant Village Survey Simple Export CLI (Version 0.0.1). Zenodo. http://doi.org/10.5281/zenodo.3837103
+```
+
 
 ## Table of contents
 * [Installation](#installation)
@@ -52,7 +62,7 @@ optional arguments:
 To obtain help for specific functionality, simply call it with _help_ switch, e.g.: `plantpy auth -h`.
 
 ### plantpy auth
-For now this stores the username and password as a JSON file which eliminates the need for users to input authentication details again and again. It has some inherent features, it looks for your country in existing country list and will let you know if returned CSV is empty.
+For now this stores the username and password as a JSON file which eliminates the need for users to input authentication details again and again.
 
 ```
 plantpy auth -h
@@ -66,7 +76,7 @@ optional arguments:
 ****
 
 ### plantpy locust
-This allows you to export the locust reports based on country, start and end date into a CSV file. Use country as "all" to get report on all countries in current survey list. Usage is simply
+This allows you to export the locust reports based on country, start and end date into a CSV file. Use country as "all" to get report on all countries in current survey list. It has some inherent features, it looks for your country in existing country list and will let you know if returned CSV is empty. Usage is simply
 
 ```
 plantpy locust -h
