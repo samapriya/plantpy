@@ -1,3 +1,4 @@
 rapidfuzz>=0.2.2
 requests>=2.23.0
 beautifulsoup4>=4.9.1
+pandas>=1.0.3

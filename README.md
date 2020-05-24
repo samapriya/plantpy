@@ -18,6 +18,7 @@ http://doi.org/10.5281/zenodo.3840984
 * [Getting started](#getting-started)
     * [plantpy auth](#plantpy-auth)
     * [plantpy locust](#plantpy-locust)
+    * [plantpy extract](#plantpy-extract)
 
 ## Installation
 This assumes that you have native python3 & pip installed in your system, you can test this by going to the terminal (or windows command prompt) and trying
@@ -47,17 +48,18 @@ As usual, to print help:
 
 ```
 plantpy -h
-usage: plantpy [-h] {auth,locust} ...
+usage: plantpy [-h] {auth,locust,extract} ...
 
 Plant Village Survey Export: Simple CLI
 
 positional arguments:
-  {auth,locust}
-    auth         Saves your username and password
-    locust       Extract locust survey data
+  {auth,locust,extract}
+    auth                Saves your username and password
+    locust              Export locust survey data
+    extract             Export and filter locust survey to geometry
 
 optional arguments:
-  -h, --help     show this help message and exit
+  -h, --help            show this help message and exit
 ```
 
 To obtain help for specific functionality, simply call it with _help_ switch, e.g.: `plantpy auth -h`.
@@ -95,9 +97,36 @@ Required named arguments.:
 ```
 
 ![plantpy_locust](https://user-images.githubusercontent.com/6677629/82530828-29b71a80-9b0c-11ea-914c-7dca93f127c1.gif)
+****
 
+### plantpy extract
+This tool will allow you to work with the extracted CSV file and generate a point GeoJSON file containing the location and properties of the survey report. The tool also allows you to pass a geometry GeoJSON file to filter by geometry.
+
+```
+plantpy extract -h
+usage: plantpy extract [-h] --input INPUT --output OUTPUT
+                       [--geometry GEOMETRY]
+
+optional arguments:
+  -h, --help           show this help message and exit
+
+Required named arguments.:
+  --input INPUT        Path to input CSV survey data file
+  --output OUTPUT      Path to output GeoJSON file
+
+Optional named arguments:
+  --geometry GEOMETRY  Path to filter geometry as a GeoJSON file
+```
+
+![pyplant_extract](https://user-images.githubusercontent.com/6677629/82766045-b2bea200-9de9-11ea-9847-4335d71e8555.gif)
+
+****
 
 ### Changelog
+
+**v0.0.3**
+* Used pandas for efficient reporting.
+* Extract and export CSV report to geometry file and filter by geometry.
 
 **v0.0.2**
 * Added version check for automatic release notification.
