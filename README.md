@@ -1,15 +1,16 @@
 # plantpy: Plant Village Survey Export Simple CLI
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3840984.svg)](https://doi.org/10.5281/zenodo.3840984)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3842118.svg)](https://doi.org/10.5281/zenodo.3842118)
 [![PyPI version](https://badge.fury.io/py/plantpy.svg)](https://badge.fury.io/py/plantpy)
+![Build Status](https://img.shields.io/badge/dynamic/json.svg?label=downloads&url=https%3A%2F%2Fpypistats.org%2Fapi%2Fpackages%2Fplantpy%2Frecent%3Fperiod%3Dmonth&query=%24.data.last_month&colorB=blue&suffix=%2fmonth)
 
 This is an application to programmatically export Survey results from [Plant Village surveys](https://plantvillage.psu.edu/). The tool will be extended to include multiple surveys and data sources but for now it exports only the Locust survey datasets. This tools access will depend on your access with plantvillage.
 
 Simple citation:
 
 ```
-Samapriya Roy. (2020, May 23). samapriya/plantpy: plantpy: Plant Village Survey Simple Export CLI (Version 0.0.2). Zenodo.
-http://doi.org/10.5281/zenodo.3840984
+Samapriya Roy. (2020, May 24). samapriya/plantpy: plantpy: Plant Village Survey Simple Export CLI (Version 0.0.3). Zenodo.
+http://doi.org/10.5281/zenodo.3842118
 ```
 
 
