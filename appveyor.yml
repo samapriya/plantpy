@@ -33,6 +33,9 @@ for:
     environment:
       PYTHON: "C:\\Python38-x64"
     test_script:
-      - "%PYTHON%\\python -m pip install cython numpy"
-      - "%PYTHON%\\python setup.py install"
+      - "%PYTHON%\\python.exe -m pip install pipwin"
+      - "%PYTHON%\\python.exe -m pip install cython"
+      - "%PYTHON%\\Scripts\\pipwin.exe refresh --log=info"
+      - "%PYTHON%\\Scripts\\pipwin.exe install pandas"
+      - "%PYTHON%\\python.exe setup.py install"
       - "%PYTHON%\\Scripts\\plantpy.exe -h"
