@@ -35,7 +35,5 @@ for:
     test_script:
       - "%PYTHON%\\python.exe -m pip install pipwin"
       - "%PYTHON%\\python.exe -m pip install cython"
-      - "%PYTHON%\\Scripts\\pipwin.exe refresh --log=info"
-      - "%PYTHON%\\Scripts\\pipwin.exe install pandas"
       - "%PYTHON%\\python.exe setup.py install"
       - "%PYTHON%\\Scripts\\plantpy.exe -h"
