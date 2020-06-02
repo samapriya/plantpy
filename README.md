@@ -115,7 +115,7 @@ optional arguments:
 
 Required named arguments.:
   --input INPUT        Path to input CSV survey data file
-  --output OUTPUT      Path to output GeoJSON file
+  --output OUTPUT      Path to output GeoJSON file or Shapefile
 
 Optional named arguments:
   --geometry GEOMETRY  Path to filter geometry as a GeoJSON file
@@ -126,6 +126,9 @@ Optional named arguments:
 ****
 
 ### Changelog
+
+**v0.0.4**
+* Extract CSV report to GeoJSON or Shapefile.
 
 **v0.0.3**
 * Used pandas for efficient reporting.

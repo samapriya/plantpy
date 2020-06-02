@@ -33,7 +33,6 @@ import pkg_resources
 import sys
 import json
 import requests
-
 if str(platform.system().lower()) == "windows":
     # Get python runtime version
     version =sys.version_info[0]
@@ -59,9 +58,33 @@ if str(platform.system().lower()) == "windows":
     except Exception as e:
         print(e)
     try:
+        import gdal
+    except ImportError:
+        subprocess.call('pipwin install gdal', shell=True)
+    except Exception as e:
+        print(e)
+    try:
+        import pyproj
+    except ImportError:
+        subprocess.call('pipwin install pyproj', shell=True)
+    except Exception as e:
+        print(e)
+    try:
         import shapely
     except ImportError:
         subprocess.call('pipwin install shapely', shell=True)
+    except Exception as e:
+        print(e)
+    try:
+        import fiona
+    except ImportError:
+        subprocess.call('pipwin install fiona', shell=True)
+    except Exception as e:
+        print(e)
+    try:
+        import geopandas
+    except ImportError:
+        subprocess.call('pipwin install geopandas', shell=True)
     except Exception as e:
         print(e)
 # Setup an agent for login
@@ -240,6 +263,7 @@ li = []
 
 
 def extract(input, output, geometry):
+    import geopandas as gpd
     from collections import OrderedDict
     from shapely.geometry import shape, Point
     if geometry is None:
@@ -270,14 +294,26 @@ def extract(input, output, geometry):
         d = OrderedDict()
         d["type"] = "FeatureCollection"
         d["features"] = li
-
-        with open(output, "w") as f:
-            json.dump(d, f, indent=2)
-        print(
-            "Extracted a total of {} features: File written to {}".format(
-                len(li), output
+        if output.endswith('.geojson'):
+            with open(output, "w") as f:
+                json.dump(d, f, indent=2)
+            print(
+                "Extracted a total of {} features: File written to {}".format(
+                    len(li), output
+                )
             )
-        )
+        elif output.endswith('.shp'):
+            with open(output.replace('.shp','.geojson'), "w") as f:
+                json.dump(d, f, indent=2)
+            myshpfile = gpd.read_file(output.replace('.shp','.geojson'))
+            myshpfile.to_file(output)
+            os.remove(output.replace('.shp','.geojson'))
+            print(
+                "Extracted a total of {} features: File written to {}".format(
+                    len(li), output
+                )
+            )
+
     elif geometry is not None:
         with open(geometry) as f:
             js = json.load(f)
@@ -315,13 +351,25 @@ def extract(input, output, geometry):
         d["type"] = "FeatureCollection"
         d["features"] = li
 
-        with open(output, "w") as f:
-            json.dump(d, f, indent=2)
-        print(
-            "Extracted a total of {} features: File written to {}".format(
-                len(li), output
+        if output.endswith('.geojson'):
+            with open(output, "w") as f:
+                json.dump(d, f, indent=2)
+            print(
+                "Extracted a total of {} features: File written to {}".format(
+                    len(li), output
+                )
             )
-        )
+        elif output.endswith('.shp'):
+            with open(output.replace('.shp','.geojson'), "w") as f:
+                json.dump(d, f, indent=2)
+            myshpfile = gpd.read_file(output.replace('.shp','.geojson'))
+            myshpfile.to_file(output)
+            os.remove(output.replace('.shp','.geojson'))
+            print(
+                "Extracted a total of {} features: File written to {}".format(
+                    len(li), output
+                )
+            )
 
 def extract_from_parser(args):
     extract(input=args.input, output=args.output, geometry=args.geometry)
@@ -351,9 +399,9 @@ def main(args=None):
     parser_extract = subparsers.add_parser("extract", help="Export and filter locust survey to geometry")
     required_named = parser_extract.add_argument_group("Required named arguments.")
     required_named.add_argument("--input", help="Path to input CSV survey data file", required=True)
-    required_named.add_argument("--output", help="Path to output GeoJSON file", required=True)
+    required_named.add_argument("--output", help="Path to output GeoJSON file or Shapefile", required=True)
     optional_named = parser_extract.add_argument_group('Optional named arguments')
-    optional_named.add_argument('--geometry', help="Path to filter geometry as a GeoJSON file", default=None)
+    optional_named.add_argument('--geometry', help="Path to filter geometry as a GeoJSON", default=None)
     parser_extract.set_defaults(func=extract_from_parser)
 
     args = parser.parse_args()

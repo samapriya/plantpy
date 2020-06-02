@@ -20,14 +20,15 @@ def readme():
         return f.read()
 setuptools.setup(
     name='plantpy',
-    version='0.0.3',
+    version='0.0.4',
     packages=['plantpy'],
     url='https://github.com/samapriya/plantpy',
     install_requires=['rapidfuzz>=0.2.2',
     'requests>=2.23.0',
     'beautifulsoup4>=4.9.1',
     'pandas>=1.0.3',
-    'shapely>=1.7.0;platform_system!="Windows"'],
+    'shapely>=1.7.0;platform_system!="Windows"',
+    'geopandas>=0.7.0;platform_system!="Windows"'],
     license='Apache 2.0',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
